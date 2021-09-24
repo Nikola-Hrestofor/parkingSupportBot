@@ -1,5 +1,4 @@
 psycopg2==2.7.7
-psycopg2-binary==2.8.6
 pycosat==0.6.3
 pycparser==2.19
 pycryptodome==3.10.1
