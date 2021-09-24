@@ -28,7 +28,7 @@ model = ''
 def start(message):
     if message.text == '/start':
         print('New user ' + message.from_user.username)
-        bot.send_message(189437726, 'New user ' + message.from_user.username);
+        bot.send_message(189437726, "New user " + message.from_user.username);
         bot.send_message(message.from_user.id, 
                             '/registration - регистрация в системе\n' 
                             '/search - найти данные по номеру автомобиля\n'
@@ -84,7 +84,7 @@ def report(message):
     phone = phone[2:]
     print(phone)
     print ('New report ')
-    bot.send_message(189437726, 'New report ' + phone);
+    bot.send_message(189437726, "New report " + phone);
     
     if getIdBuNumber(carNumber):
         for id in getIdBuNumber(carNumber):
@@ -96,7 +96,7 @@ def report(message):
 def evacuationInform(message):
     carNumber = repl(message.text.upper())
     print ('New evacuationInform ')
-    bot.send_message(189437726, 'New evacuationInform ');
+    bot.send_message(189437726, "New evacuationInform ");
     
     if getIdBuNumber(carNumber):
         for id in getIdBuNumber(carNumber):
@@ -157,17 +157,17 @@ def callback_worker(call):
     if call.data == "yes": #call.data это callback_data, которую мы указали при объявлении кнопки
         reg(userName, userId, phone, name, carNumber, model) #код сохранения данных, или их обработки
         print('New ures ')
-        bot.send_message(189437726, 'New ures ');
+        bot.send_message(189437726, "New ures ");
         bot.send_message(call.message.chat.id, 'Спасибо за регистрацию! Теперь вам доступен поиск по базе /search');
     elif call.data == "no":
         print('Rejection')
-        bot.send_message(189437726, 'Rejection');
+        bot.send_message(189437726, "Rejection");
         bot.send_message(call.message.chat.id, 'Send /help')
 
 def getPhoneByCarNumber(message):
     carNumber = repl(message.text.upper())
     print('New search by car number ' + str(carNumber))
-        bot.send_message(189437726, 'New search by car number ' + str(carNumber));
+    bot.send_message(189437726, "New search by car number " + str(carNumber));
     recordsAD = searchPhone(carNumber)
 
     if recordsAD:
