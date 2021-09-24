@@ -28,7 +28,7 @@ model = ''
 def start(message):
     if message.text == '/start':
         print('New user ' + message.from_user.username)
-        bot.send_message(189437726, "New user " + message.from_user.username);
+        bot.send_message(189437726, "New user @" + message.from_user.username);
         bot.send_message(message.from_user.id, 
                             '/registration - регистрация в системе\n' 
                             '/search - найти данные по номеру автомобиля\n'
