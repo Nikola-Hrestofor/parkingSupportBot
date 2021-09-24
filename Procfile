@@ -1,1 +1,1 @@
-bot: python parkingSupportBot.py.py
+bot: python parkingSupportBot.py
