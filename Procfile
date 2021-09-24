@@ -1,1 +1,1 @@
-bot: python parkingSupportBot.py
+worker: python parkingSupportBot.py
