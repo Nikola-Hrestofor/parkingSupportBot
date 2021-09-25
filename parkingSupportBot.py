@@ -2,9 +2,6 @@ import telebot;
 import logging;
 from telebot import types as ty
 
-# from registration import reg 
-# from searchPhone import search as searchNumber
-# from getIdByNumber import search as searchId
 from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById, deleteById
 
 # Enable logging
@@ -24,7 +21,7 @@ name = ''
 model = ''
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(commands=['start', 'registration', 'search', 'block', 'evacuation', 'del'])
 def start(message):
     if message.text == '/start':
         print('New user ' + message.from_user.username)
@@ -80,6 +77,10 @@ def start(message):
 
 def comment(message):
     global carNumber
+    if message.text[:1] == '/':
+        start(message)
+        return
+        
     carNumber = repl(message.text.upper())
     bot.send_message(message.from_user.id, "Оставьте комментарий(время убытия, цвет машины..)");
     bot.register_next_step_handler(message, report)
@@ -87,6 +88,10 @@ def comment(message):
 
 def report(message):
     global carNumber
+    if message.text[:1] == '/':
+        start(message)
+        return
+
     comment = message.text
     # phone = str(searchPhoneById(message.from_user.id))
     phone = ''
@@ -106,6 +111,11 @@ def report(message):
         bot.send_message(message.from_user.id, 'К сожалению нам не удалось связаться с владельцем..(');
 
 def evacuationInform(message):
+
+    if message.text[:1] == '/':
+        start(message)
+        return
+
     carNumber = repl(message.text.upper())
     print ('New evacuationInform ')
     bot.send_message(189437726, "New evacuationInform ");
@@ -118,6 +128,9 @@ def evacuationInform(message):
 
 def setPhone(message): 
     global phone;
+    if message.text[:1] == '/':
+        start(message)
+        return
 
     phone = message.text
     bot.send_message(message.from_user.id, "Как Вас зовут?");
@@ -125,6 +138,9 @@ def setPhone(message):
 
 def setName(message): 
     global name;
+    if message.text[:1] == '/':
+        start(message)
+        return
 
     name = message.text
     bot.send_message(message.from_user.id, "Номер автомобиля");
@@ -132,12 +148,20 @@ def setName(message):
 
 def setCarNumber(message): 
     global carNumber;
+    if message.text[:1] == '/':
+        start(message)
+        return
+
     carNumber = repl(message.text.upper());   
     bot.send_message(message.from_user.id, "Модель автомобиля");
     bot.register_next_step_handler(message, setModel);
 
 def setModel(message): 
     global model;
+    if message.text[:1] == '/':
+        start(message)
+        return
+
     model = message.text;
     # reg(userName, userId, phone, name, carNumber, model)
     setApprove(message)
@@ -149,6 +173,9 @@ def setApprove(message):
     global username;
     global name;
     global model;
+    if message.text[:1] == '/':
+        start(message)
+        return
 
     keyboard = ty.InlineKeyboardMarkup(); #наша клавиатура
     key_yes = ty.InlineKeyboardButton(text='Да, продолжить!', callback_data='yes'); #кнопка «Да»
