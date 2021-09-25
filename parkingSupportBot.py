@@ -122,7 +122,7 @@ def evacuationInform(message):
     
     if getIdBuNumber(carNumber):
         for id in getIdBuNumber(carNumber):
-            bot.send_message(id[0], 'Ваш автомобиль с номером ' + carNumber + 'кажется, эвакуируют ;(');
+            bot.send_message(id[0], 'Ваш автомобиль с номером ' + carNumber + ', кажется, эвакуируют ;(');
     else:
         bot.send_message(message.from_user.id, 'К сожалению нам не удалось связаться с владельцем..(');
 
@@ -212,7 +212,7 @@ def getPhoneByCarNumber(message):
     if message.text[:1] == '/':
         start(message)
         return
-        
+
     carNumber = repl(message.text.upper())
     print('New search by car number ' + str(carNumber))
     bot.send_message(189437726, "New search by car number " + str(carNumber));
