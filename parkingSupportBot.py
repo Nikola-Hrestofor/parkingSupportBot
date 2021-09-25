@@ -5,7 +5,7 @@ from telebot import types as ty
 # from registration import reg 
 # from searchPhone import search as searchNumber
 # from getIdByNumber import search as searchId
-from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById
+from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -34,6 +34,7 @@ def start(message):
                             '/search - найти данные по номеру автомобиля\n'
                             '/block - сообщите владельцу, если вы его перекрыли\n'
                             '/evacuation - сообщить, что автомобиль эвакуируют\n'
+                            '/del - удалить свою машину\n'
                             'Вопросы, жалобы, предложению сюда 👉 @nikola_fp')
     elif message.text == '/help':
         bot.send_message(message.from_user.id, 
@@ -41,7 +42,8 @@ def start(message):
                             '/search - найти данные по номеру автомобиля\n'
                             '/block - сообщите владельцу, если вы его перекрыли\n'
                             '/evacuation - сообщить, что автомобиль эвакуируют\n'
-                            'Вопросы, жалобы, предложению сюда 👉 @nikola_fp')
+                            '/del - удалить свою машину\n'
+                            'Вопросы, жалобы, предложения сюда 👉 @nikola_fp')
     elif message.text == '/registration':
         global userName
         global userId
@@ -65,6 +67,16 @@ def start(message):
     elif message.text == '/evacuation':
         bot.send_message(message.from_user.id, "Отправьте номер автомобиля, которого собираются увезти, и мы сообщим об этом владельцу");
         bot.register_next_step_handler(message, evacuationInform)
+    elif message.text == '/del':
+        if isExistsById(message.from_user.id):
+            keyboard = ty.InlineKeyboardMarkup(); #наша клавиатура
+            for number in searchCarNumberById(message.from_user.id):
+                key = ty.InlineKeyboardButton(text=number[1], callback_data=number[0]); #кнопка «Да»
+                keyboard.add(key);
+            question = 'Какой автомобиль Вы хотите удалить?';
+            bot.send_message(message.from_user.id, text=question, reply_markup=keyboard)
+        else:
+            bot.send_message(message.from_user.id, "Ваших автомобилей нет в списке");
 
 def comment(message):
     global carNumber
