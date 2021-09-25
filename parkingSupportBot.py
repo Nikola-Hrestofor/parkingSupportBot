@@ -176,7 +176,13 @@ def callback_worker(call):
         bot.send_message(189437726, "Rejection");
         bot.send_message(call.message.chat.id, 'Send /help')
     elif type(call.data) == int:
-        deleteById(call.data)
+        print(call.data)
+        count = deleteById(call.data)
+        print count
+        if count > 0:
+            bot.send_message(call.message.chat.id, 'Успешно!')
+        else:
+            bot.send_message(call.message.chat.id, 'Что-то пошло не так..')
 
 def getPhoneByCarNumber(message):
     carNumber = repl(message.text.upper())
