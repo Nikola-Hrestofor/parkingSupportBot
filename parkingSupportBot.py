@@ -209,6 +209,10 @@ def callback_worker(call):
 
 
 def getPhoneByCarNumber(message):
+    if message.text[:1] == '/':
+        start(message)
+        return
+        
     carNumber = repl(message.text.upper())
     print('New search by car number ' + str(carNumber))
     bot.send_message(189437726, "New search by car number " + str(carNumber));
