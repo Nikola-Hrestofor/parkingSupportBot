@@ -71,7 +71,7 @@ def start(message):
         if isExistsById(message.from_user.id):
             keyboard = ty.InlineKeyboardMarkup(); #наша клавиатура
             for number in searchCarNumberById(message.from_user.id):
-                key = ty.InlineKeyboardButton(text=number[1], callback_data=number[0]); #кнопка «Да»
+                key = ty.InlineKeyboardButton(text=number[1], callback_data='del'+str(number[0])); 
                 keyboard.add(key);
             question = 'Какой автомобиль Вы хотите удалить?';
             bot.send_message(message.from_user.id, text=question, reply_markup=keyboard)
@@ -175,14 +175,11 @@ def callback_worker(call):
         print('Rejection')
         bot.send_message(189437726, "Rejection");
         bot.send_message(call.message.chat.id, 'Send /help')
-    elif type(call.data) == int:
-        print(call.data)
-        count = deleteById(call.data)
-        print count
-        if count > 0:
-            bot.send_message(call.message.chat.id, 'Успешно!')
-        else:
-            bot.send_message(call.message.chat.id, 'Что-то пошло не так..')
+    elif call.data[:3] == 'del':
+        bot.send_message(189437726, "Delete");
+        deleteById(call.data[3:])
+        bot.send_message(call.message.chat.id, 'Успешно!')
+
 
 def getPhoneByCarNumber(message):
     carNumber = repl(message.text.upper())

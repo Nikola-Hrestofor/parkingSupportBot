@@ -62,12 +62,14 @@ def isExistsById(id):
  
 	return recordsAD
 
-def delById(id):
+def deleteById(id):
 
 	global cur
-	cur.execute("select id, phone from parkingList where id =  %(id)s;" , {"id":id})
-	con.commit()
-    count = cursor.rowcount
+	global conn
 
-    return count
+	cur.execute("delete from parkingList where id =  %(id)s;" , {"id":id})
+	conn.commit()
+    # count = cur.rowcount
+
+    # return count
 
