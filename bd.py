@@ -39,10 +39,7 @@ def searchPhoneById(telegramId):
 
 	global cur
 	cur.execute("select phone from parkingList where telegramId =  %(telegramId)s;" , {"telegramId":telegramId})
-	recordsAD = cur.fetchall()   
-	print(recordsAD)
 
-	return recordsAD
 
 def searchCarNumberById(telegramId):
 
@@ -62,5 +59,12 @@ def isExistsById(id):
  
 	return recordsAD
 
+def deleteById(id):
 
+	global cur
+	cur.execute("delete from parkingList where id =  %(id)s;" , {"id":id})
+	recordsAD = cur.fetchall()   
+	print(recordsAD)
+
+	return recordsAD
 

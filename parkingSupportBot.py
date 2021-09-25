@@ -5,7 +5,7 @@ from telebot import types as ty
 # from registration import reg 
 # from searchPhone import search as searchNumber
 # from getIdByNumber import search as searchId
-from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById
+from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById, deleteById
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -175,6 +175,8 @@ def callback_worker(call):
         print('Rejection')
         bot.send_message(189437726, "Rejection");
         bot.send_message(call.message.chat.id, 'Send /help')
+    elif type(call.data) == int:
+        deleteById(call.data)
 
 def getPhoneByCarNumber(message):
     carNumber = repl(message.text.upper())
