@@ -28,7 +28,7 @@ model = ''
 def start(message):
     if message.text == '/start':
         print('New user ' + message.from_user.username)
-        bot.send_message(189437726, "New user @" + message.from_user.username);
+        bot.send_message(189437726, "New user @" + str(message.from_user.username));
         bot.send_message(message.from_user.id, 
                             '/registration - регистрация в системе\n' 
                             '/search - найти данные по номеру автомобиля\n'
@@ -168,7 +168,7 @@ def callback_worker(call):
 
     if call.data == "yes": #call.data это callback_data, которую мы указали при объявлении кнопки
         reg(userName, userId, phone, name, carNumber, model) #код сохранения данных, или их обработки
-        print('New ures ')
+        print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
         bot.send_message(call.message.chat.id, 'Спасибо за регистрацию! Теперь вам доступен поиск по базе /search');
     elif call.data == "no":
