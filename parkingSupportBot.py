@@ -1,7 +1,8 @@
 import telebot;
 import logging;
 from telebot import types as ty
-from threading import Thread, local
+import threading
+# from threading import Thread, local
 
 from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById, deleteById
 
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 bot = telebot.TeleBot('2034711051:AAFzh9AnJsqxsrqA6MnmbaRp59omtJg7F3Q');
 
-data = local()
+data = threading.local()
 
 
 phone = 0
