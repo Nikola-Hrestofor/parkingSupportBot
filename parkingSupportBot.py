@@ -1,6 +1,7 @@
 import telebot;
 import logging;
 from telebot import types as ty
+from threading import Thread, local
 
 from bd import getIdBuNumber, reg, searchPhone, isExistsById, searchPhoneById, searchCarNumberById, deleteById
 
@@ -12,6 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 bot = telebot.TeleBot('2034711051:AAFzh9AnJsqxsrqA6MnmbaRp59omtJg7F3Q');
+
+data = local()
+
 
 phone = 0
 carNumber = ''
@@ -133,6 +137,7 @@ def setPhone(message):
         return
 
     phone = message.text
+    data.v = message.text
     bot.send_message(message.from_user.id, "Как Вас зовут?");
     bot.register_next_step_handler(message, setName);
 
@@ -197,6 +202,8 @@ def callback_worker(call):
         reg(userName, userId, phone, name, carNumber, model) #код сохранения данных, или их обработки
         print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
+        print('phone ' + phone)
+        print('data ' + data)
         bot.send_message(call.message.chat.id, 'Спасибо за регистрацию! Теперь вам доступен поиск по базе /search');
     elif call.data == "no":
         print('Rejection')
