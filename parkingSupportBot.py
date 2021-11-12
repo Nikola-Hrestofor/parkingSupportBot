@@ -17,13 +17,20 @@ bot = telebot.TeleBot('2034711051:AAFzh9AnJsqxsrqA6MnmbaRp59omtJg7F3Q');
 
 data = threading.local()
 
+phone = threading.local()
+carNumber = threading.local()
+userName = threading.local()
+userId = threading.local()
+name = threading.local()
+model = threading.local()
 
-data.phone = 0
-data.carNumber = ''
-data.userName = ''
-data.userId = 0
-data.name = ''
-data.model = ''
+
+phone.v = 0
+carNumber.v = ''
+userName.v = ''
+userId.v = 0
+name.v = ''
+model.v = ''
 
 
 @bot.message_handler(commands=['start', 'registration', 'search', 'block', 'evacuation', 'del'])
@@ -49,8 +56,8 @@ def start(message):
     elif message.text == '/registration':
         # global userName
         # global userId
-        data.userName = message.from_user.username
-        data.userId = message.from_user.id
+        userName.v = message.from_user.username
+        userId.v = message.from_user.id
         # TO DO Проверить регистрацию
         bot.send_message(message.from_user.id, "Ваш номер телефона");
         bot.register_next_step_handler(message, setPhone)
@@ -86,7 +93,7 @@ def comment(message):
         start(message)
         return
         
-    data.carNumber = repl(message.text.upper())
+    carNumber.v = repl(message.text.upper())
     bot.send_message(message.from_user.id, "Оставьте комментарий(время убытия, цвет машины..)");
     bot.register_next_step_handler(message, report)
 
@@ -108,8 +115,8 @@ def report(message):
     print ('New report ')
     bot.send_message(189437726, "New report " + phone);
     
-    if getIdBuNumber(data.carNumber):
-        for id in getIdBuNumber(data.carNumber):
+    if getIdBuNumber(carNumber.v):
+        for id in getIdBuNumber(carNumber.v):
             bot.send_message(id[0], 'Вас перекрыли, но оставили все данные @' + message.from_user.username + ', телефон: ' + str(phone) + '\n'
              + 'комментарий: ' + comment);
     else:
@@ -137,8 +144,8 @@ def setPhone(message):
         start(message)
         return
 
-    data.phone = message.text
-    data.v = message.text
+    phone.v = message.text
+    # data.v = message.text
     bot.send_message(message.from_user.id, "Как Вас зовут?");
     bot.register_next_step_handler(message, setName);
 
@@ -148,7 +155,7 @@ def setName(message):
         start(message)
         return
 
-    data.name = message.text
+    name.v = message.text
     bot.send_message(message.from_user.id, "Номер автомобиля");
     bot.register_next_step_handler(message, setCarNumber);
 
@@ -158,7 +165,7 @@ def setCarNumber(message):
         start(message)
         return
 
-    data.carNumber = repl(message.text.upper());   
+    carNumber.v = repl(message.text.upper());   
     bot.send_message(message.from_user.id, "Модель автомобиля");
     bot.register_next_step_handler(message, setModel);
 
@@ -168,7 +175,7 @@ def setModel(message):
         start(message)
         return
 
-    data.model = message.text;
+    model.v = message.text;
     # reg(userName, userId, phone, name, carNumber, model)
     setApprove(message)
     # bot.register_next_step_handler(message, get_approve);
@@ -200,7 +207,7 @@ def callback_worker(call):
     # global model;
 
     if call.data == "yes": #call.data это callback_data, которую мы указали при объявлении кнопки
-        reg(data.userName, userId, data.phone, data.name, data.carNumber, data.model) #код сохранения данных, или их обработки
+        reg(userName.v, userId, phone.v, name.v, carNumber.v, model.v) #код сохранения данных, или их обработки
         print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
         # print('phone ' + str(phone))
