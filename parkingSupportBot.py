@@ -207,7 +207,7 @@ def callback_worker(call):
     # global model;
 
     if call.data == "yes": #call.data это callback_data, которую мы указали при объявлении кнопки
-        reg(data.userName, userId, data.phone, data.name, data.carNumber, data.model) #код сохранения данных, или их обработки
+        reg(data.userName, data.userId, data.phone, data.name, data.carNumber, data.model) #код сохранения данных, или их обработки
         print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
         # print('phone ' + str(phone))
