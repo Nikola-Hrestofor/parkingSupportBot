@@ -202,8 +202,8 @@ def callback_worker(call):
         reg(userName, userId, phone, name, carNumber, model) #код сохранения данных, или их обработки
         print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
-        print('phone ' + phone)
-        print('data ' + data)
+        print('phone ' + str(phone))
+        print('data ' + str(data.v))
         bot.send_message(call.message.chat.id, 'Спасибо за регистрацию! Теперь вам доступен поиск по базе /search');
     elif call.data == "no":
         print('Rejection')
