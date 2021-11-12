@@ -18,12 +18,12 @@ bot = telebot.TeleBot('2034711051:AAFzh9AnJsqxsrqA6MnmbaRp59omtJg7F3Q');
 data = threading.local()
 
 
-phone = 0
-carNumber = ''
-userName = ''
-userId = 0
-name = ''
-model = ''
+data.phone = 0
+data.carNumber = ''
+data.userName = ''
+data.userId = 0
+data.name = ''
+data.model = ''
 
 
 @bot.message_handler(commands=['start', 'registration', 'search', 'block', 'evacuation', 'del'])
@@ -47,10 +47,10 @@ def start(message):
                             '/del - удалить свою машину\n'
                             'Вопросы, жалобы, предложения сюда 👉 @nikola_fp')
     elif message.text == '/registration':
-        global userName
-        global userId
-        userName = message.from_user.username
-        userId = message.from_user.id
+        # global userName
+        # global userId
+        data.userName = message.from_user.username
+        data.userId = message.from_user.id
         # TO DO Проверить регистрацию
         bot.send_message(message.from_user.id, "Ваш номер телефона");
         bot.register_next_step_handler(message, setPhone)
@@ -81,18 +81,18 @@ def start(message):
             bot.send_message(message.from_user.id, "Ваших автомобилей нет в списке");
 
 def comment(message):
-    global carNumber
+    # global carNumber
     if message.text[:1] == '/':
         start(message)
         return
         
-    carNumber = repl(message.text.upper())
+    data.carNumber = repl(message.text.upper())
     bot.send_message(message.from_user.id, "Оставьте комментарий(время убытия, цвет машины..)");
     bot.register_next_step_handler(message, report)
 
 
 def report(message):
-    global carNumber
+    # global carNumber
     if message.text[:1] == '/':
         start(message)
         return
@@ -108,8 +108,8 @@ def report(message):
     print ('New report ')
     bot.send_message(189437726, "New report " + phone);
     
-    if getIdBuNumber(carNumber):
-        for id in getIdBuNumber(carNumber):
+    if getIdBuNumber(data.carNumber):
+        for id in getIdBuNumber(data.carNumber):
             bot.send_message(id[0], 'Вас перекрыли, но оставили все данные @' + message.from_user.username + ', телефон: ' + str(phone) + '\n'
              + 'комментарий: ' + comment);
     else:
@@ -132,53 +132,53 @@ def evacuationInform(message):
         bot.send_message(message.from_user.id, 'К сожалению нам не удалось связаться с владельцем..(');
 
 def setPhone(message): 
-    global phone;
+    # global phone;
     if message.text[:1] == '/':
         start(message)
         return
 
-    phone = message.text
+    data.phone = message.text
     data.v = message.text
     bot.send_message(message.from_user.id, "Как Вас зовут?");
     bot.register_next_step_handler(message, setName);
 
 def setName(message): 
-    global name;
+    # global name;
     if message.text[:1] == '/':
         start(message)
         return
 
-    name = message.text
+    data.name = message.text
     bot.send_message(message.from_user.id, "Номер автомобиля");
     bot.register_next_step_handler(message, setCarNumber);
 
 def setCarNumber(message): 
-    global carNumber;
+    # global carNumber;
     if message.text[:1] == '/':
         start(message)
         return
 
-    carNumber = repl(message.text.upper());   
+    data.carNumber = repl(message.text.upper());   
     bot.send_message(message.from_user.id, "Модель автомобиля");
     bot.register_next_step_handler(message, setModel);
 
 def setModel(message): 
-    global model;
+    # global model;
     if message.text[:1] == '/':
         start(message)
         return
 
-    model = message.text;
+    data.model = message.text;
     # reg(userName, userId, phone, name, carNumber, model)
     setApprove(message)
     # bot.register_next_step_handler(message, get_approve);
 
 def setApprove(message): 
-    global carNumber;
-    global phone;
-    global username;
-    global name;
-    global model;
+    # global carNumber;
+    # global phone;
+    # global username;
+    # global name;
+    # global model;
     if message.text[:1] == '/':
         start(message)
         return
@@ -193,18 +193,18 @@ def setApprove(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
-    global carNumber;
-    global phone;
-    global username;
-    global name;
-    global model;
+    # global carNumber;
+    # global phone;
+    # global username;
+    # global name;
+    # global model;
 
     if call.data == "yes": #call.data это callback_data, которую мы указали при объявлении кнопки
-        reg(userName, userId, phone, name, carNumber, model) #код сохранения данных, или их обработки
+        reg(data.userName, userId, data.phone, data.name, data.carNumber, data.model) #код сохранения данных, или их обработки
         print('New user ' + str(call.message.chat.id))
         bot.send_message(189437726, "New ures ");
-        print('phone ' + str(phone))
-        print('data ' + str(data.v))
+        # print('phone ' + str(phone))
+        # print('data ' + str(data.v))
         bot.send_message(call.message.chat.id, 'Спасибо за регистрацию! Теперь вам доступен поиск по базе /search');
     elif call.data == "no":
         print('Rejection')
