@@ -35,6 +35,12 @@ data.model = ''
 
 @bot.message_handler(commands=['start', 'registration', 'search', 'block', 'evacuation', 'del'])
 def start(message):
+    data.phone = 0
+    data.carNumber = ''
+    data.userName = ''
+    data.userId = 0
+    data.name = ''
+    data.model = ''
     if message.text == '/start':
         print('New user ' + message.from_user.username)
         bot.send_message(189437726, "New user @" + str(message.from_user.username));
